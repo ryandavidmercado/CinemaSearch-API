@@ -2,20 +2,22 @@ const path = require("path");
 
 require("dotenv").config();
 
-const DEV_URL = "postgres://jsajzttv:PpcM6wLYtJuoIz_EB-1IWtsL2G5whueU@batyr.db.elephantsql.com/jsajzttv";
-const { DATABASE_URL = DEV_URL } = process.env;
+const { DATABASE_URL = "postgresql://postgres:postgres@localhost" } =
+  process.env;
 
 module.exports = {
   development: {
-    client: "postgresql",
-    connection: DEV_URL,
-    pool: { min: 0, max: 5 },
+    client: "sqlite3",
+    connection: {
+      filename: path.join(__dirname, "src", "db", "dev.sqlite3"),
+    },
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
     },
     seeds: {
       directory: path.join(__dirname, "src", "db", "seeds"),
     },
+    useNullAsDefault: true,
   },
 
   production: {
