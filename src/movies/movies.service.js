@@ -1,13 +1,14 @@
 const db = require("../db/connection");
 const table = "movies as m";
 
-const list = () => db(table).select("*");
+const list = () => db(table).select("*").orderBy("movie_id");
 
 const listShowing = () =>
   db(table)
     .join("movies_theaters as mt", "m.movie_id", "mt.movie_id")
     .distinct("m.*")
-    .where("mt.is_showing", true);
+    .where("mt.is_showing", true)
+    .orderBy("m.movie_id");
 
 const read = (movie_id) => db(table).select("*").where({ movie_id }).first();
 
